@@ -1,0 +1,41 @@
+# Ambiente virtual
+venv/
+.env
+*.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Dados sensíveis / temporários
+*.zip
+*.tar.gz
+*.log
+*.tmp
+
+# Node (caso use React Native)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
