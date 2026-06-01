@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain.chains import RetrievalQA
-from langchain.prompts import PromptTemplate
+from langchain.prompts import ChatPromptTemplate, SystemMessagePromptTemplate, HumanMessagePromptTemplate
 
 # Carrega variáveis de ambiente (chave OpenAI)
 load_dotenv()
@@ -152,23 +152,20 @@ def build_rag_chain(vector_store: FAISS) -> RetrievalQA:
     Retorna:
         Chain RetrievalQA pronta para responder perguntas
     """
-    # System prompt em português para o especialista em debris
-    template = """Você é um especialista em debris espaciais e monitoramento orbital.
-Responda sempre em português, de forma clara e técnica.
-Use apenas as informações fornecidas pelo contexto abaixo.
-Se a informação não estiver no contexto, diga que não possui essa informação.
-
-Contexto:
-{context}
-
-Pergunta: {question}
-
-Resposta:"""
-
-    prompt = PromptTemplate(
-        template=template,
-        input_variables=["context", "question"]
+    # System message em português — instrui o modelo a responder apenas com base no contexto
+    system_template = (
+        "Você é um especialista em debris espaciais e monitoramento orbital. "
+        "Responda sempre em português, de forma clara e técnica. "
+        "Use apenas as informações fornecidas pelo contexto abaixo. "
+        "Se a informação não estiver no contexto, diga que não possui essa informação.\n\n"
+        "Contexto:\n{context}"
     )
+
+    # Monta o ChatPromptTemplate com system message separada da pergunta do usuário
+    prompt = ChatPromptTemplate.from_messages([
+        SystemMessagePromptTemplate.from_template(system_template),
+        HumanMessagePromptTemplate.from_template("{question}"),
+    ])
 
     # Modelo de linguagem GPT-3.5-turbo
     llm = ChatOpenAI(
