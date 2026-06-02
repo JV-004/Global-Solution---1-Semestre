@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from src.api.routes.health_routes import router as health_router
+
 app = FastAPI(
     title="Space Debris Tracker API",
     description="API responsável por conectar dados orbitais, modelo de risco e dashboard.",
@@ -15,19 +17,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(health_router)
+
 
 @app.get("/")
 def root():
     return {
         "message": "Space Debris Tracker API",
-        "status": "online"
-    }
-
-
-@app.get("/health")
-def health_check():
-    return {
         "status": "online",
-        "service": "api",
-        "message": "API funcionando corretamente"
+        "docs": "/docs"
     }
