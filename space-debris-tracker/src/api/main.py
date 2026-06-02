@@ -27,3 +27,13 @@ def root():
         "status": "online",
         "docs": "/docs"
     }
+
+from src.api.routes.debris_routes import router as debris_router
+from src.api.routes.rag_routes import router as rag_router
+from src.api.routes.update_routes import router as update_router
+
+app.include_router(health_router)
+
+app.include_router(debris_router)
+app.include_router(rag_router)
+app.include_router(update_router)
