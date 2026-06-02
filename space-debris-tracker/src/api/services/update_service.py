@@ -7,5 +7,6 @@ def update_tle_data():
 
     return {
         "status": "success",
+        "message": "Dados TLE atualizados com sucesso",
         "objects_updated": len(dados)
     }
