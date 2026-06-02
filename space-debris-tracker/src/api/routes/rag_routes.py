@@ -13,7 +13,11 @@ class QuestionRequest(BaseModel):
     question: str
 
 
-@router.post("/ask")
+@router.post(
+    "/ask",
+    summary="Pergunta ao agente RAG",
+    description="Permite consultar o agente especialista em debris espaciais.",
+)
 def ask_question(request: QuestionRequest):
 
     resposta = ask_rag(request.question)
