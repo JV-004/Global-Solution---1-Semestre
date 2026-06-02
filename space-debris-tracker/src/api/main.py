@@ -5,6 +5,7 @@ from src.api.routes.health_routes import router as health_router
 from src.api.routes.debris_routes import router as debris_router
 from src.api.routes.rag_routes import router as rag_router
 from src.api.routes.update_routes import router as update_router
+from src.api.routes.iot_routes import router as iot_router
 
 app = FastAPI(
     title="Space Debris Tracker API",
@@ -24,6 +25,7 @@ app.include_router(health_router)
 app.include_router(debris_router)
 app.include_router(rag_router)
 app.include_router(update_router)
+app.include_router(iot_router)
 
 
 @app.get("/")
