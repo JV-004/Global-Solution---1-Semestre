@@ -2,6 +2,9 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.api.routes.health_routes import router as health_router
+from src.api.routes.debris_routes import router as debris_router
+from src.api.routes.rag_routes import router as rag_router
+from src.api.routes.update_routes import router as update_router
 
 app = FastAPI(
     title="Space Debris Tracker API",
@@ -18,6 +21,9 @@ app.add_middleware(
 )
 
 app.include_router(health_router)
+app.include_router(debris_router)
+app.include_router(rag_router)
+app.include_router(update_router)
 
 
 @app.get("/")
@@ -27,13 +33,3 @@ def root():
         "status": "online",
         "docs": "/docs"
     }
-
-from src.api.routes.debris_routes import router as debris_router
-from src.api.routes.rag_routes import router as rag_router
-from src.api.routes.update_routes import router as update_router
-
-app.include_router(health_router)
-
-app.include_router(debris_router)
-app.include_router(rag_router)
-app.include_router(update_router)
