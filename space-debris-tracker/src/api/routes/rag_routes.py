@@ -16,7 +16,7 @@ class QuestionRequest(BaseModel):
 @router.post(
     "/ask",
     summary="Pergunta ao agente RAG",
-    description="Permite consultar o agente especialista em debris espaciais.",
+    description="Permite consultar o agente especialista em debris espaciais."
 )
 def ask_question(request: QuestionRequest):
 
