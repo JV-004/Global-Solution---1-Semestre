@@ -369,7 +369,8 @@ npm start
 #### Abrir no celular
 
 1. Instale o **Expo Go** (disponível na Play Store e App Store)
-2. Escaneie o QR Code que aparece no terminal com o Expo Go (Android)
+      👉 [Expo Go — Guia Completo](docs/readme_expo_go.md)
+3. Escaneie o QR Code que aparece no terminal com o Expo Go (Android)
    ou com o app de Câmera (iOS)
 
 #### Abrir no navegador (para screenshots)
