@@ -16,6 +16,12 @@
 
 ---
 
+## 👩‍🏫 Professores:
+### Tutor(a) 
+- <a href="https://linkedin.com/in/caique-nonato">CAIQUE NONATO DA SILVA BEZERRA</a>
+### Coordenador(a)
+- <a href="https://www.linkedin.com/in/andregodoichiovato/">ANDRÉ GODOI CHIOVATO</a>
+
 ## 📌 Proposta
 
 O **Space Debris Tracker** é uma solução tecnológica desenvolvida para a **Global Solution 2026.1** da FIAP,
