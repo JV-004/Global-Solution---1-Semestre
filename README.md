@@ -16,11 +16,15 @@
 
 ---
 
-## 👩‍🏫 Professores:
-### Tutor(a) 
+## 👩‍🏫 Professores
+
+### Tutor(a)
 - <a href="https://linkedin.com/in/caique-nonato">CAIQUE NONATO DA SILVA BEZERRA</a>
+
 ### Coordenador(a)
 - <a href="https://www.linkedin.com/in/andregodoichiovato/">ANDRÉ GODOI CHIOVATO</a>
+
+---
 
 ## 📌 Proposta
 
@@ -29,7 +33,7 @@ com o tema **Economia Espacial**. O sistema aborda o crescente problema dos debr
 satélites, foguetes e outros objetos artificiais que orbitam a Terra sem função operacional e representam
 risco real para missões espaciais ativas.
 
-A solução integra quatro camadas tecnológicas:
+A solução integra cinco camadas tecnológicas:
 
 - **IA & Dados:** consumo de dados TLE reais do CelesTrak, propagação orbital via SGP4 e classificação
   de risco de colisão com modelo RandomForest
@@ -151,6 +155,7 @@ space-debris-tracker/
 ## ⚙️ Tecnologias Utilizadas
 
 ### Backend & IA
+
 | Tecnologia | Versão | Uso |
 |------------|--------|-----|
 | Python | 3.10+ | Linguagem principal do backend |
@@ -168,6 +173,7 @@ space-debris-tracker/
 | Pydantic | 2.7.1 | Validação de schemas da API |
 
 ### Frontend Mobile
+
 | Tecnologia | Versão | Uso |
 |------------|--------|-----|
 | React Native | — | Framework mobile multiplataforma |
@@ -181,6 +187,7 @@ space-debris-tracker/
 | @expo-google-fonts/rajdhani | — | Fonte sci-fi para textos e labels |
 
 ### Infraestrutura
+
 | Tecnologia | Uso |
 |------------|-----|
 | Docker / Docker Compose | Containerização do backend |
@@ -243,13 +250,11 @@ curl -X POST http://localhost:8000/iot/telemetry \
 
 ### Pré-requisitos
 
-| Ferramenta | Versão Mínima | Download |
-|------------|---------------|---------|
-| Python | 3.10+ | [python.org](https://www.python.org/downloads/) |
-| Node.js | 18+ | [nodejs.org](https://nodejs.org/) |
-| Git | qualquer | [git-scm.com](https://git-scm.com/) |
-| Expo Go (celular) | — | [Play Store](https://play.google.com/store/apps/details?id=host.exp.exponent) / [App Store](https://apps.apple.com/app/expo-go/id982107779) |
-| Chave OpenAI API | — | [platform.openai.com](https://platform.openai.com/) *(para o agente RAG)* |
+- Python 3.10+
+- Node.js 18+
+- Docker e Docker Compose (opcional)
+- Chave de API OpenAI (para o agente RAG)
+- Aplicativo **Expo Go** instalado no celular (Android ou iOS)
 
 ---
 
@@ -272,11 +277,14 @@ copy .env.example .env
 cp .env.example .env
 ```
 
-Abra o arquivo `.env` em qualquer editor de texto e preencha:
+Editar o arquivo `.env` com suas credenciais:
 
 ```env
 # Chave da API OpenAI (obrigatória para o agente RAG)
 OPENAI_API_KEY=sk-...
+
+# URL de dados TLE do CelesTrak (padrão já definido em tle_processor.py)
+# CELESTRAK_URL=https://celestrak.org/SOCRATES/query.php?...
 
 # Configuração do servidor FastAPI
 API_HOST=0.0.0.0
@@ -288,207 +296,36 @@ MQTT_PORT=1883
 MQTT_TOPIC=space_debris_tracker/telemetry
 ```
 
-> ⚠️ **NUNCA** commite o arquivo `.env` no repositório. Ele já está listado no `.gitignore`.
-
 ---
 
-## 💻 Executando Diretamente no Notebook (Windows ou Mac)
+### 3. Executar o Backend
 
-Esta seção cobre **todo o processo de execução local** em um laptop/notebook,
-incluindo as soluções para os problemas mais comuns encontrados em ambientes Windows.
-
-O sistema é composto por **dois processos independentes** que devem rodar simultaneamente
-em **dois terminais separados**:
-
-```
-Terminal 1 → Servidor Backend (Python/FastAPI)
-Terminal 2 → Aplicativo Frontend (Node.js/Expo)
-```
-
----
-
-### 🖥️ Terminal 1 — Servidor Backend (Python)
-
-Abra o **Prompt de Comando** ou o **PowerShell** e execute os passos abaixo:
-
-#### Passo 1 — Navegar até a pasta do projeto
+#### Opção A — Ambiente Virtual Python (recomendado para desenvolvimento)
 
 ```bash
-cd C:\FIAP_TRABALHOS\Global-Solution---1-Semestre-main\space-debris-tracker
+# Windows
+python -m venv venv
+venv\Scripts\activate
+
+# Linux/Mac
+python -m venv venv
+source venv/bin/activate
+
+# Instalar dependências
+pip install -r requirements.txt
+
+# Iniciar o servidor FastAPI
+uvicorn src.api.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-#### Passo 2 — Instalar todas as dependências Python
-
-> ⚠️ **Atenção (Python 3.12+):** O arquivo `requirements.txt` usa `>=` nas versões
-> para garantir compatibilidade com Python moderno. Caso o pip tente compilar um
-> pacote e falhe, use o comando abaixo com `--legacy-peer-deps`.
+#### Opção B — Docker Compose
 
 ```bash
-python -m pip install -r requirements.txt
+docker-compose up --build
 ```
 
-Se aparecer erro de compilação do `scikit-learn` ou outro pacote, execute:
-```bash
-python -m pip install -r requirements.txt --only-binary=:all:
-```
-
-#### Passo 3 — Iniciar o servidor FastAPI
-
-> ⚠️ **Atenção (Windows):** O comando `uvicorn` pode não ser reconhecido pelo PowerShell
-> mesmo após instalado. Use sempre `python -m uvicorn` para evitar o erro
-> *"O termo 'uvicorn' não é reconhecido"*.
-
-```bash
-python -m uvicorn src.api.main:app --host 0.0.0.0 --port 8000
-```
-
-✅ O servidor está pronto quando você ver no terminal:
-```
-INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
-```
-
-Você pode confirmar abrindo no navegador: **http://localhost:8000/health**
-
-> 📎 **Dados de demonstração:** O sistema tenta buscar dados TLE em tempo real do CelesTrak.
-> Caso o serviço externo esteja indisponível (erro 404), ele carrega automaticamente o
-> arquivo de cache local em `data/tle_cache.json`, que contém 6 objetos reais pré-configurados:
-> ISS, Cosmos 1408, Fengyun 1C, Iridium 33, SL-16 e Envisat.
-
-**Deixe este terminal aberto e rodando.**
-
----
-
-### 📱 Terminal 2 — Aplicativo Frontend (Expo)
-
-Abra um **novo terminal** (mantenha o Terminal 1 do servidor ativo) e execute:
-
-#### Passo 1 — Navegar até a pasta do frontend
-
-```bash
-cd C:\FIAP_TRABALHOS\Global-Solution---1-Semestre-main\space-debris-tracker\frontend
-```
-
-#### Passo 2 — Configurar a URL da API
-
-Crie ou edite o arquivo `frontend/.env`:
-
-```env
-# Para testar no MESMO computador (versão web no navegador):
-EXPO_PUBLIC_API_URL=http://localhost:8000
-
-# Para testar no CELULAR FÍSICO (substitua pelo IP do seu notebook):
-# EXPO_PUBLIC_API_URL=http://192.168.1.XX:8000
-```
-
-> 💡 Para descobrir o IP do seu notebook na rede local:
-> - **Windows:** abra o PowerShell e digite `ipconfig` → procure "Endereço IPv4"
-> - **Mac/Linux:** abra o Terminal e digite `ifconfig` → procure `inet` em `en0` ou `wlan0`
-> O celular e o notebook devem estar conectados na **mesma rede Wi-Fi**.
-
-#### Passo 3 — Instalar as dependências Node.js
-
-```bash
-npm install
-```
-
-Se aparecer erro de conflito de dependências, use:
-```bash
-npm install --legacy-peer-deps
-```
-
-#### Passo 4 — Instalar suporte para versão Web (apenas uma vez)
-
-```bash
-npm install react-dom react-native-web @expo/metro-runtime --legacy-peer-deps
-```
-
-> ⚠️ **Atenção (PowerShell):** Se o comando `npx` falhar com erro de *"execução de scripts
-> desabilitada"*, use a variante `.cmd` para contornar a política de segurança do Windows:
-> ```bash
-> npx.cmd expo install react-dom react-native-web @expo/metro-runtime
-> ```
-
-#### Passo 5 — Iniciar o Expo
-
-```bash
-npm start
-```
-
-Ou, caso o `npm` também falhe no PowerShell:
-```bash
-npm.cmd start
-```
-
----
-
-### 🌐 Visualizando o Aplicativo
-
-Quando o Expo iniciar, você verá um menu no terminal com um grande QR Code.
-Escolha a forma de visualização conforme sua necessidade:
-
-#### Opção A — No Navegador do Notebook *(mais fácil — recomendado para apresentação)*
-
-No terminal do Expo, pressione a tecla **`w`**.
-
-O aplicativo abrirá automaticamente no seu navegador padrão (Chrome, Edge, etc.)
-sem precisar de celular ou emulador.
-
-#### Opção B — No Celular Android (Expo Go)
-
-1. Instale o aplicativo **Expo Go** na Play Store
-2. Abra o Expo Go → toque em **"Scan QR code"**
-3. Escaneie o QR Code exibido no terminal
-
-#### Opção C — No Celular iOS (Camera)
-
-1. Abra o aplicativo **Câmera** nativo do iPhone
-2. Aponte para o QR Code exibido no terminal
-3. Toque na notificação que aparece para abrir no Expo Go
-
-#### Opção D — No Emulador Android (Android Studio)
-
-Se o Android Studio estiver instalado e um dispositivo virtual estiver aberto:
-pressione a tecla **`a`** no terminal do Expo.
-
----
-
-### ✅ Verificação — Tudo funcionando
-
-Após subir os dois servidores, confirme que está tudo OK:
-
-| Verificação | O que checar | Resultado Esperado |
-|-------------|-------------|-------------------|
-| Backend ativo | `http://localhost:8000/health` no navegador | `{"status": "ok"}` |
-| API de debris | `http://localhost:8000/debris` no navegador | Lista com 6 objetos JSON |
-| App exibindo dados | Tela Home do aplicativo | Cards dos 6 debris orbitais visíveis |
-| Filtros funcionando | Botões BAIXO / MÉDIO / ALTO / CRÍTICO | Lista filtra por nível de risco |
-| Chat RAG | Tela do Agente, digitar uma pergunta | Resposta em português do agente |
-
----
-
-### ❌ Problemas Comuns e Soluções
-
-| Problema | Causa | Solução |
-|----------|-------|---------|
-| `uvicorn: comando não reconhecido` | Scripts do Python não estão no PATH do Windows | Use `python -m uvicorn` no lugar de `uvicorn` |
-| `npx: execução de scripts desabilitada` | Política de segurança do PowerShell | Use `npx.cmd` ou `npm.cmd` no lugar de `npx`/`npm` |
-| `ModuleNotFoundError: No module named 'sgp4'` | A instalação do pip foi interrompida por outro erro anterior | Rode `python -m pip install -r requirements.txt` novamente |
-| `faiss-cpu==X.X.X: no matching distribution` | Versão pinada incompatível com Python 3.12+ | As versões no `requirements.txt` já usam `>=` — rode `pip install -r requirements.txt` novamente |
-| `Nenhum debris encontrado` | CelesTrak indisponível + cache local ausente | O arquivo `data/tle_cache.json` já está no repositório com 6 objetos de demonstração |
-| `ERESOLVE could not resolve` no npm | Conflito de versões entre pacotes Node | Adicione `--legacy-peer-deps` ao comando `npm install` |
-| App abre mas não carrega dados | URL da API incorreta no `.env` do frontend | Confirme que `EXPO_PUBLIC_API_URL` aponta para o IP correto e porta 8000 |
-| Erro de TLE format ao iniciar servidor | TLEs malformados no cache | O cache `data/tle_cache.json` já está corrigido com TLEs válidos |
-
----
-
-### 3. Executar o Backend (forma simplificada)
-
-```bash
-python -m uvicorn src.api.main:app --host 0.0.0.0 --port 8000 --reload
-```
-
-O backend estará disponível em `http://localhost:8000`.
-Documentação interativa Swagger: `http://localhost:8000/docs`
+O backend estará disponível em `http://localhost:8000`.  
+Documentação interativa: `http://localhost:8000/docs`
 
 ---
 
@@ -505,6 +342,152 @@ O publisher enviará telemetria simulada ao broker HiveMQ a cada 5 segundos.
 
 ---
 
+### 5. Executar o Frontend Mobile
+
+```bash
+cd frontend
+```
+
+#### Windows — Liberar execução de scripts PowerShell
+
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+```
+
+#### Configurar variável de ambiente do frontend
+
+Editar (ou criar) o arquivo `frontend/.env`:
+
+```env
+# Usar o IP da sua rede local — NÃO usar localhost ao testar no celular físico
+EXPO_PUBLIC_API_URL=http://192.168.X.X:8000
+```
+
+> Para descobrir seu IP local: `ipconfig` (Windows) ou `ifconfig` (Linux/Mac).  
+> O celular e o computador devem estar na **mesma rede Wi-Fi**.
+
+#### Instalar dependências e iniciar
+
+```bash
+npm install
+npx expo start
+```
+
+---
+
+<details>
+<summary>📱 Como executar pelo Expo Go (Celular Físico)</summary>
+
+O **Expo Go** é um aplicativo gratuito que permite visualizar e testar o Space Debris Tracker
+diretamente no seu celular físico, sem precisar de emulador ou Android Studio.
+O celular exibe o app em tempo real — qualquer alteração feita no código aparece automaticamente na tela.
+
+---
+
+### Passo 1 — Instalar o Expo Go no Celular
+
+| Plataforma | Link |
+|------------|------|
+| Android | [Play Store — Expo Go](https://play.google.com/store/apps/details?id=host.exp.exponent) |
+| iOS | App Store → buscar por **"Expo Go"** |
+
+---
+
+### Passo 2 — Configurar o IP do Notebook no Frontend
+
+Descubra o IP local do notebook:
+
+```bash
+# Windows
+ipconfig
+
+# Mac / Linux
+ifconfig
+```
+
+Procure pelo endereço em **"Endereço IPv4"** (ex: `192.168.1.10`).
+
+Edite o arquivo `frontend/.env` substituindo `localhost` pelo IP encontrado:
+
+```env
+EXPO_PUBLIC_API_URL=http://192.168.1.10:8000
+```
+
+> ⚠️ **Nunca usar `localhost`** quando o acesso é feito pelo celular físico.
+> O celular não conhece o `localhost` do notebook — precisa do IP real da rede.
+
+---
+
+### Passo 3 — Iniciar o Backend
+
+Abra o primeiro terminal:
+
+```bash
+cd Global-Solution---1-Semestre-main\space-debris-tracker
+python -m uvicorn src.api.main:app --host 0.0.0.0 --port 8000
+```
+
+> Deixe este terminal aberto e rodando.
+
+---
+
+### Passo 4 — Iniciar o Expo
+
+Abra um segundo terminal:
+
+```bash
+# Windows — liberar execução de scripts PowerShell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
+cd Global-Solution---1-Semestre-main\space-debris-tracker\frontend
+npx expo start
+```
+
+Aguarde o QR Code aparecer no terminal.
+
+---
+
+### Passo 5 — Conectar o Celular
+
+**Android:**
+1. Abrir o app **Expo Go**
+2. Tocar em **"Scan QR Code"**
+3. Apontar para o QR Code no terminal
+
+**iOS:**
+1. Abrir o app de **Câmera** nativo
+2. Apontar para o QR Code no terminal
+3. Tocar na notificação que aparecer na tela
+
+O Space Debris Tracker abrirá automaticamente no celular em poucos segundos. ✅
+
+---
+
+### Comandos úteis durante o uso
+
+| Tecla no terminal | Ação |
+|-------------------|------|
+| `r` | Recarregar o app |
+| `m` | Abrir menu de desenvolvedor |
+| `w` | Abrir no navegador do notebook |
+| `a` | Abrir no Android (emulador) |
+| `Ctrl + C` | Encerrar o servidor Expo |
+
+---
+
+### Solução de Problemas
+
+| Problema | Solução |
+|----------|---------|
+| `Project is incompatible with this version of Expo Go` | Atualizar o projeto para o SDK compatível: `npx expo install expo@^54 --fix` |
+| App abre mas não carrega os dados | Verificar se o backend está rodando e se o IP no `.env` está correto |
+| QR Code não escaneia | Garantir que celular e notebook estão na mesma rede Wi-Fi |
+| `npm não é reconhecido` no PowerShell | Executar `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass` antes do `npm` |
+
+</details>
+
+---
+
 ## 📱 Telas do Aplicativo
 
 | Tela | Rota | Descrição |
@@ -513,6 +496,14 @@ O publisher enviará telemetria simulada ao broker HiveMQ a cada 5 segundos.
 | **Detalhe** | `/debris/[id]` | Dados orbitais completos, TLE raw, score de risco e histórico |
 | **Dashboard** | `/dashboard` | Gráfico donut de distribuição de riscos, top 5 debris críticos e alertas |
 | **Agente RAG** | `/agent` | Chat em português com o agente especialista em debris orbitais |
+
+<div align="center">
+
+| Home | Dashboard | Agente RAG |
+|------|-----------|------------|
+| ![Tela Home](space-debris-tracker/docs/tela1.jpg) | ![Tela Dashboard](space-debris-tracker/docs/tela2.jpg) | ![Tela Agente RAG](space-debris-tracker/docs/tela3.jpg) |
+
+</div>
 
 ---
 
@@ -537,11 +528,13 @@ O app utiliza uma estética **espacial / sci-fi sombria**, inspirada em painéis
 ## 🤖 Componentes de IA
 
 ### TLE Processor (`src/ai/tle_processor.py`)
+
 Busca dados TLE reais do **CelesTrak** via HTTP GET e os propaga com a biblioteca **SGP4**,
 convertendo os elementos orbitais em posições e velocidades cartesianas (x, y, z, vx, vy, vz).
 Em caso de falha na requisição, utiliza cache local em `data/tle_cache.json`.
 
 ### Collision Model (`src/ai/collision_model.py`)
+
 Modelo **RandomForest** treinado com dados simulados que classifica o risco de colisão entre
 pares de objetos orbitais em três categorias:
 
@@ -554,6 +547,7 @@ pares de objetos orbitais em três categorias:
 Features utilizadas: distância mínima (km) e velocidade relativa (km/s).
 
 ### Agente RAG (`src/ai/rag_agent.py`)
+
 Agente baseado em **LangChain + FAISS + OpenAI GPT** com base de conhecimento embutida
 sobre debris orbitais, Síndrome de Kessler, formato TLE, propagação SGP4 e iniciativas
 de mitigação. Responde perguntas em **português** via endpoint `POST /rag/ask`.
@@ -563,10 +557,12 @@ de mitigação. Responde perguntas em **português** via endpoint `POST /rag/ask
 ## 📡 Camada IoT
 
 ### MQTT Publisher (`src/iot/mqtt_publisher.py`)
+
 Publica telemetria orbital simulada no broker público **HiveMQ** (`broker.hivemq.com:1883`)
 no tópico `space_debris_tracker/telemetry` a cada 5 segundos.
 
 ### Telemetry Generator (`src/iot/telemetry_generator.py`)
+
 Gera payloads simulados com:
 - `object_id` — ID aleatório do objeto
 - `altitude_km` — altitude entre 300 e 1200 km
@@ -574,6 +570,7 @@ Gera payloads simulados com:
 - `distance_to_nearest_object_km` — distância ao objeto mais próximo (0.5 – 50 km)
 
 ### IoT Service (`src/api/services/iot_service.py`)
+
 Classifica o risco a partir da distância ao objeto mais próximo:
 
 | Distância | Risco |
@@ -641,7 +638,7 @@ paho-mqtt==1.6.1
 
 ## 📄 Licença
 
-Projeto acadêmico desenvolvido para a **Global Solution 2026.1 — FIAP**
+Projeto acadêmico desenvolvido para a **Global Solution 2026.1 — FIAP**  
 Curso de Inteligência Artificial — Fases 3 e 4
 
 ---
