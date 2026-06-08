@@ -361,13 +361,151 @@ EXPO_PUBLIC_API_URL=http://192.168.X.X:8000
 
 #### Instalar dependências e iniciar
 
+<details>
+<summary>💻 Como executar localmente no Notebook (Windows / Mac)</summary>
+
+### Passo 1 — Iniciar o Backend
+
+```bash
+cd space-debris-tracker
+python -m uvicorn src.api.main:app --host 0.0.0.0 --port 8000
+```
+
+### Passo 2 — Iniciar o Frontend
+
+```bash
+cd frontend
+npx expo start
+```
+
+</details>
+
+
+<details>
+<summary>📱 Como executar o app pelo Expo Go (Celular Físico)</summary>
+
+O **Expo Go** é um aplicativo gratuito que permite visualizar e testar o Space Debris Tracker
+diretamente no seu celular físico, sem precisar de emulador ou Android Studio.
+O celular exibe o app em tempo real — qualquer alteração feita no código aparece
+automaticamente na tela.
+
+> 📖 Guia completo: [Expo Go — Documentação](docs/readme_expo_go.md)
+
+---
+
+### Pré-requisito
+
+Celular e notebook conectados na **mesma rede Wi-Fi**.
+
+---
+
+### Passo 1 — Instalar o Expo Go no Celular
+
+| Plataforma | Link |
+|------------|------|
+| Android | [Play Store — Expo Go](https://play.google.com/store/apps/details?id=host.exp.exponent) |
+| iOS | App Store → buscar por **"Expo Go"** |
+
+---
+
+### Passo 2 — Configurar o IP do Notebook no Frontend
+
+Descubra o IP local do notebook:
+
+```bash
+# Windows
+ipconfig
+
+# Mac / Linux
+ifconfig
+```
+
+Procure pelo endereço em **"Endereço IPv4"** (ex: `192.168.1.10`).
+
+Edite o arquivo `frontend/.env` substituindo `localhost` pelo IP encontrado:
+
+```env
+EXPO_PUBLIC_API_URL=http://192.168.1.10:8000
+```
+
+> ⚠️ **Nunca usar `localhost`** quando o acesso é feito pelo celular físico.
+> O celular não conhece o `localhost` do notebook — precisa do IP real da rede.
+
+---
+
+### Passo 3 — Iniciar o Backend
+
+Abra o primeiro terminal:
+
+```bash
+cd C:\FIAP_TRABALHOS\Global-Solution---1-Semestre-main\space-debris-tracker
+python -m uvicorn src.api.main:app --host 0.0.0.0 --port 8000
+```
+
+> Deixe este terminal aberto e rodando.
+
+---
+
+### Passo 4 — Iniciar o Expo
+
+Abra um segundo terminal:
+
+```bash
+# Windows — liberar execução de scripts PowerShell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
+cd C:\FIAP_TRABALHOS\Global-Solution---1-Semestre-main\space-debris-tracker\frontend
+npx expo start
+```
+
+Aguarde o QR Code aparecer no terminal.
+
+---
+
+### Passo 5 — Conectar o Celular
+
+**Android:**
+1. Abrir o app **Expo Go**
+2. Tocar em **"Scan QR Code"**
+3. Apontar para o QR Code no terminal
+
+**iOS:**
+1. Abrir o app de **Câmera** nativo
+2. Apontar para o QR Code no terminal
+3. Tocar na notificação que aparecer na tela
+
+O Space Debris Tracker abrirá automaticamente no celular em poucos segundos. ✅
+
+---
+
+### Comandos úteis durante o uso
+
+| Tecla no terminal | Ação |
+|-------------------|------|
+| `r` | Recarregar o app |
+| `m` | Abrir menu de desenvolvedor |
+| `w` | Abrir no navegador do notebook |
+| `Ctrl + C` | Encerrar o servidor Expo |
+
+---
+
+### Solução de Problemas
+
+| Problema | Solução |
+|----------|---------|
+| `Project is incompatible with this version of Expo Go` | Atualizar o projeto para o SDK compatível: `npx expo install expo@^54 --fix` |
+| App abre mas não carrega os dados | Verificar se o backend está rodando e se o IP no `.env` está correto |
+| QR Code não escaneia | Garantir que celular e notebook estão na mesma rede Wi-Fi |
+| `npm não é reconhecido` no PowerShell | Executar `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass` antes do `npm` |
+
+</details>
 ```bash
 npm install
 npm start
 ```
 
 
-#### Abrir no navegador (para screenshots)
+#### Abrir no navegador 
 
 ```bash
 # Instalar suporte web (apenas na primeira vez)
