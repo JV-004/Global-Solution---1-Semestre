@@ -366,19 +366,22 @@ npm install
 npm start
 ```
 
-#### Abrir no celular
-
-1. Instale o **Expo Go** (disponível na Play Store e App Store)
-      👉 [Expo Go — Guia Completo](docs/readme_expo_go.md)
-3. Escaneie o QR Code que aparece no terminal com o Expo Go (Android)
-   ou com o app de Câmera (iOS)
 
 #### Abrir no navegador (para screenshots)
 
 ```bash
 # Instalar suporte web (apenas na primeira vez)
 npx expo install react-native-web react-dom
+#### 📱 Abrir no Celular
 
+1. Instale o **Expo Go** no seu dispositivo
+   - Android: [Play Store — Expo Go](https://play.google.com/store/apps/details?id=host.exp.exponent)
+   - iOS: App Store → buscar por **"Expo Go"**
+   - 📖 Guia completo: [Expo Go — Documentação](docs/readme_expo_go.md)
+
+2. Escaneie o QR Code que aparece no terminal
+   - **Android:** abrir o Expo Go → tocar em **"Scan QR Code"**
+   - **iOS:** abrir o app de **Câmera** nativo → apontar para o QR Code
 # No terminal do npm start, pressionar:
 w
 ```
