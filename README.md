@@ -335,19 +335,19 @@ O publisher enviará telemetria simulada ao broker HiveMQ a cada 5 segundos.
 
 ---
 
-### 5. Executar o Frontend Mobile
+### 5. Executar o Frontend Mobile -Space Debris Tracker
 
 ```bash
 cd frontend
 ```
 
-#### Windows — liberar execução de scripts PowerShell
+#### Windows — Liberar execução de scripts PowerShell
 
 ```powershell
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 ```
 
-#### Configurar variável de ambiente do frontend
+#### Configurar variável de ambiente do frontend - Space Debris Tracker
 
 Editar (ou criar) o arquivo `frontend/.env`:
 
