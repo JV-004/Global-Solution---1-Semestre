@@ -630,7 +630,7 @@ paho-mqtt==1.6.1
 
 ## 🔗 Link do Vídeo
 
-[▶️ Assistir Demonstração — Space Debris Tracker](docs/Space%20Debris%20Tracker.mp4)
+[▶️ Assistir Demonstração — Space Debris Tracker](https://youtube.com/shorts/w02cDi46nSc?feature=share)
 
 > [Adicionar link do YouTube ao final do projeto]
 
