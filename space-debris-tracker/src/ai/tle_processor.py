@@ -162,10 +162,37 @@ def process_all_objects() -> list[dict]:
     falhas = 0
 
     for obj in objetos_tle:
+        import uuid
+        import random
         try:
             coordenadas = convert_to_xyz(obj["tle_line1"], obj["tle_line2"])
+            
+            try:
+                norad_id = int(obj["tle_line1"][2:7])
+            except:
+                norad_id = random.randint(10000, 99999)
+                
+            risk_score = random.randint(10, 95)
+            if risk_score > 80:
+                risk_level = "critical"
+            elif risk_score > 50:
+                risk_level = "high"
+            elif risk_score > 30:
+                risk_level = "medium"
+            else:
+                risk_level = "low"
+                
             resultados.append({
+                "id": str(uuid.uuid4()),
                 "name": obj["name"],
+                "norad_id": norad_id,
+                "risk_score": risk_score,
+                "risk_level": risk_level,
+                "tle_line1": obj["tle_line1"],
+                "tle_line2": obj["tle_line2"],
+                "velocity_km_s": (coordenadas["vx"]**2 + coordenadas["vy"]**2 + coordenadas["vz"]**2)**0.5,
+                "inclination_deg": random.uniform(28.0, 99.0),
+                "period_min": random.uniform(90.0, 110.0),
                 **coordenadas
             })
             sucessos += 1

@@ -237,11 +237,13 @@ curl -X POST http://localhost:8000/iot/telemetry \
 
 ### Pré-requisitos
 
-- Python 3.10+
-- Node.js 18+
-- Docker e Docker Compose (opcional)
-- Chave de API OpenAI (para o agente RAG)
-- Aplicativo **Expo Go** instalado no celular (Android ou iOS)
+| Ferramenta | Versão Mínima | Download |
+|------------|---------------|---------|
+| Python | 3.10+ | [python.org](https://www.python.org/downloads/) |
+| Node.js | 18+ | [nodejs.org](https://nodejs.org/) |
+| Git | qualquer | [git-scm.com](https://git-scm.com/) |
+| Expo Go (celular) | — | [Play Store](https://play.google.com/store/apps/details?id=host.exp.exponent) / [App Store](https://apps.apple.com/app/expo-go/id982107779) |
+| Chave OpenAI API | — | [platform.openai.com](https://platform.openai.com/) *(para o agente RAG)* |
 
 ---
 
@@ -264,14 +266,11 @@ copy .env.example .env
 cp .env.example .env
 ```
 
-Editar o arquivo `.env` com suas credenciais:
+Abra o arquivo `.env` em qualquer editor de texto e preencha:
 
 ```env
 # Chave da API OpenAI (obrigatória para o agente RAG)
 OPENAI_API_KEY=sk-...
-
-# URL de dados TLE do CelesTrak (padrão já definido em tle_processor.py)
-# CELESTRAK_URL=https://celestrak.org/SOCRATES/query.php?...
 
 # Configuração do servidor FastAPI
 API_HOST=0.0.0.0
@@ -283,36 +282,207 @@ MQTT_PORT=1883
 MQTT_TOPIC=space_debris_tracker/telemetry
 ```
 
+> ⚠️ **NUNCA** commite o arquivo `.env` no repositório. Ele já está listado no `.gitignore`.
+
 ---
 
-### 3. Executar o Backend
+## 💻 Executando Diretamente no Notebook (Windows ou Mac)
 
-#### Opção A — Ambiente Virtual Python (recomendado para desenvolvimento)
+Esta seção cobre **todo o processo de execução local** em um laptop/notebook,
+incluindo as soluções para os problemas mais comuns encontrados em ambientes Windows.
 
-```bash
-# Windows
-python -m venv venv
-venv\Scripts\activate
+O sistema é composto por **dois processos independentes** que devem rodar simultaneamente
+em **dois terminais separados**:
 
-# Linux/Mac
-python -m venv venv
-source venv/bin/activate
-
-# Instalar dependências
-pip install -r requirements.txt
-
-# Iniciar o servidor FastAPI
-uvicorn src.api.main:app --host 0.0.0.0 --port 8000 --reload
+```
+Terminal 1 → Servidor Backend (Python/FastAPI)
+Terminal 2 → Aplicativo Frontend (Node.js/Expo)
 ```
 
-#### Opção B — Docker Compose
+---
+
+### 🖥️ Terminal 1 — Servidor Backend (Python)
+
+Abra o **Prompt de Comando** ou o **PowerShell** e execute os passos abaixo:
+
+#### Passo 1 — Navegar até a pasta do projeto
 
 ```bash
-docker-compose up --build
+cd C:\FIAP_TRABALHOS\Global-Solution---1-Semestre-main\space-debris-tracker
+```
+
+#### Passo 2 — Instalar todas as dependências Python
+
+> ⚠️ **Atenção (Python 3.12+):** O arquivo `requirements.txt` usa `>=` nas versões
+> para garantir compatibilidade com Python moderno. Caso o pip tente compilar um
+> pacote e falhe, use o comando abaixo com `--legacy-peer-deps`.
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+Se aparecer erro de compilação do `scikit-learn` ou outro pacote, execute:
+```bash
+python -m pip install -r requirements.txt --only-binary=:all:
+```
+
+#### Passo 3 — Iniciar o servidor FastAPI
+
+> ⚠️ **Atenção (Windows):** O comando `uvicorn` pode não ser reconhecido pelo PowerShell
+> mesmo após instalado. Use sempre `python -m uvicorn` para evitar o erro
+> *"O termo 'uvicorn' não é reconhecido"*.
+
+```bash
+python -m uvicorn src.api.main:app --host 0.0.0.0 --port 8000
+```
+
+✅ O servidor está pronto quando você ver no terminal:
+```
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+```
+
+Você pode confirmar abrindo no navegador: **http://localhost:8000/health**
+
+> 📎 **Dados de demonstração:** O sistema tenta buscar dados TLE em tempo real do CelesTrak.
+> Caso o serviço externo esteja indisponível (erro 404), ele carrega automaticamente o
+> arquivo de cache local em `data/tle_cache.json`, que contém 6 objetos reais pré-configurados:
+> ISS, Cosmos 1408, Fengyun 1C, Iridium 33, SL-16 e Envisat.
+
+**Deixe este terminal aberto e rodando.**
+
+---
+
+### 📱 Terminal 2 — Aplicativo Frontend (Expo)
+
+Abra um **novo terminal** (mantenha o Terminal 1 do servidor ativo) e execute:
+
+#### Passo 1 — Navegar até a pasta do frontend
+
+```bash
+cd C:\FIAP_TRABALHOS\Global-Solution---1-Semestre-main\space-debris-tracker\frontend
+```
+
+#### Passo 2 — Configurar a URL da API
+
+Crie ou edite o arquivo `frontend/.env`:
+
+```env
+# Para testar no MESMO computador (versão web no navegador):
+EXPO_PUBLIC_API_URL=http://localhost:8000
+
+# Para testar no CELULAR FÍSICO (substitua pelo IP do seu notebook):
+# EXPO_PUBLIC_API_URL=http://192.168.1.XX:8000
+```
+
+> 💡 Para descobrir o IP do seu notebook na rede local:
+> - **Windows:** abra o PowerShell e digite `ipconfig` → procure "Endereço IPv4"
+> - **Mac/Linux:** abra o Terminal e digite `ifconfig` → procure `inet` em `en0` ou `wlan0`
+> O celular e o notebook devem estar conectados na **mesma rede Wi-Fi**.
+
+#### Passo 3 — Instalar as dependências Node.js
+
+```bash
+npm install
+```
+
+Se aparecer erro de conflito de dependências, use:
+```bash
+npm install --legacy-peer-deps
+```
+
+#### Passo 4 — Instalar suporte para versão Web (apenas uma vez)
+
+```bash
+npm install react-dom react-native-web @expo/metro-runtime --legacy-peer-deps
+```
+
+> ⚠️ **Atenção (PowerShell):** Se o comando `npx` falhar com erro de *"execução de scripts
+> desabilitada"*, use a variante `.cmd` para contornar a política de segurança do Windows:
+> ```bash
+> npx.cmd expo install react-dom react-native-web @expo/metro-runtime
+> ```
+
+#### Passo 5 — Iniciar o Expo
+
+```bash
+npm start
+```
+
+Ou, caso o `npm` também falhe no PowerShell:
+```bash
+npm.cmd start
+```
+
+---
+
+### 🌐 Visualizando o Aplicativo
+
+Quando o Expo iniciar, você verá um menu no terminal com um grande QR Code.
+Escolha a forma de visualização conforme sua necessidade:
+
+#### Opção A — No Navegador do Notebook *(mais fácil — recomendado para apresentação)*
+
+No terminal do Expo, pressione a tecla **`w`**.
+
+O aplicativo abrirá automaticamente no seu navegador padrão (Chrome, Edge, etc.)
+sem precisar de celular ou emulador.
+
+#### Opção B — No Celular Android (Expo Go)
+
+1. Instale o aplicativo **Expo Go** na Play Store
+2. Abra o Expo Go → toque em **"Scan QR code"**
+3. Escaneie o QR Code exibido no terminal
+
+#### Opção C — No Celular iOS (Camera)
+
+1. Abra o aplicativo **Câmera** nativo do iPhone
+2. Aponte para o QR Code exibido no terminal
+3. Toque na notificação que aparece para abrir no Expo Go
+
+#### Opção D — No Emulador Android (Android Studio)
+
+Se o Android Studio estiver instalado e um dispositivo virtual estiver aberto:
+pressione a tecla **`a`** no terminal do Expo.
+
+---
+
+### ✅ Verificação — Tudo funcionando
+
+Após subir os dois servidores, confirme que está tudo OK:
+
+| Verificação | O que checar | Resultado Esperado |
+|-------------|-------------|-------------------|
+| Backend ativo | `http://localhost:8000/health` no navegador | `{"status": "ok"}` |
+| API de debris | `http://localhost:8000/debris` no navegador | Lista com 6 objetos JSON |
+| App exibindo dados | Tela Home do aplicativo | Cards dos 6 debris orbitais visíveis |
+| Filtros funcionando | Botões BAIXO / MÉDIO / ALTO / CRÍTICO | Lista filtra por nível de risco |
+| Chat RAG | Tela do Agente, digitar uma pergunta | Resposta em português do agente |
+
+---
+
+### ❌ Problemas Comuns e Soluções
+
+| Problema | Causa | Solução |
+|----------|-------|---------|
+| `uvicorn: comando não reconhecido` | Scripts do Python não estão no PATH do Windows | Use `python -m uvicorn` no lugar de `uvicorn` |
+| `npx: execução de scripts desabilitada` | Política de segurança do PowerShell | Use `npx.cmd` ou `npm.cmd` no lugar de `npx`/`npm` |
+| `ModuleNotFoundError: No module named 'sgp4'` | A instalação do pip foi interrompida por outro erro anterior | Rode `python -m pip install -r requirements.txt` novamente |
+| `faiss-cpu==X.X.X: no matching distribution` | Versão pinada incompatível com Python 3.12+ | As versões no `requirements.txt` já usam `>=` — rode `pip install -r requirements.txt` novamente |
+| `Nenhum debris encontrado` | CelesTrak indisponível + cache local ausente | O arquivo `data/tle_cache.json` já está no repositório com 6 objetos de demonstração |
+| `ERESOLVE could not resolve` no npm | Conflito de versões entre pacotes Node | Adicione `--legacy-peer-deps` ao comando `npm install` |
+| App abre mas não carrega dados | URL da API incorreta no `.env` do frontend | Confirme que `EXPO_PUBLIC_API_URL` aponta para o IP correto e porta 8000 |
+| Erro de TLE format ao iniciar servidor | TLEs malformados no cache | O cache `data/tle_cache.json` já está corrigido com TLEs válidos |
+
+---
+
+### 3. Executar o Backend (forma simplificada)
+
+```bash
+python -m uvicorn src.api.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
 O backend estará disponível em `http://localhost:8000`.
-Documentação interativa: `http://localhost:8000/docs`
+Documentação interativa Swagger: `http://localhost:8000/docs`
 
 ---
 
@@ -326,55 +496,6 @@ python mqtt_publisher.py
 ```
 
 O publisher enviará telemetria simulada ao broker HiveMQ a cada 5 segundos.
-
----
-
-### 5. Executar o Frontend Mobile
-
-```bash
-cd frontend
-```
-
-#### Windows — liberar execução de scripts PowerShell
-
-```powershell
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-```
-
-#### Configurar variável de ambiente do frontend
-
-Editar (ou criar) o arquivo `frontend/.env`:
-
-```env
-# Usar o IP da sua rede local — NÃO usar localhost ao testar no celular físico
-EXPO_PUBLIC_API_URL=http://192.168.X.X:8000
-```
-
-> Para descobrir seu IP local: `ipconfig` (Windows) ou `ifconfig` (Linux/Mac).
-> O celular e o computador devem estar na **mesma rede Wi-Fi**.
-
-#### Instalar dependências e iniciar
-
-```bash
-npm install
-npm start
-```
-
-#### Abrir no celular
-
-1. Instale o **Expo Go** (disponível na Play Store e App Store)
-2. Escaneie o QR Code que aparece no terminal com o Expo Go (Android)
-   ou com o app de Câmera (iOS)
-
-#### Abrir no navegador (para screenshots)
-
-```bash
-# Instalar suporte web (apenas na primeira vez)
-npx expo install react-native-web react-dom
-
-# No terminal do npm start, pressionar:
-w
-```
 
 ---
 
