@@ -888,9 +888,7 @@ O vídeo demonstrativo apresenta o funcionamento da aplicação mobile, incluind
 
 Link do vídeo no YouTube como não listado:
 
-```text
-[[Inserir link do vídeo](https://youtube.com/shorts/foZelQEn3Ug)]
-```
+https://youtube.com/shorts/foZelQEn3Ug
 
 ---
 
