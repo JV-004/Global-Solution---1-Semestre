@@ -106,7 +106,7 @@ Desenvolver uma prova de conceito capaz de integrar Inteligência Artificial, an
 
 <p align="center">
   <img src="assets/arquitetura-geral.png" alt="Arquitetura Geral" width="100%">
-</p>)
+</p>
 
 A arquitetura do projeto foi organizada em camadas. O frontend mobile, desenvolvido em React Native com Expo, consome os serviços disponibilizados pelo backend FastAPI. O backend centraliza o processamento dos dados orbitais, a análise de conjunções com Machine Learning, o agente RAG e a camada de telemetria simulada. A comunicação entre as camadas ocorre por meio de API REST e dados em formato JSON.
 
