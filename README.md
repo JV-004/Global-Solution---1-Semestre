@@ -104,41 +104,9 @@ Desenvolver uma prova de conceito capaz de integrar Inteligência Artificial, an
 
 ## 🧩 Arquitetura Geral
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                    FRONTEND MOBILE                          │
-│              React Native + Expo                            │
-│       Home · Dashboard · Detalhe · Chat RAG                 │
-└──────────────────────┬──────────────────────────────────────┘
-                       │ HTTP / Axios
-                       ▼
-┌─────────────────────────────────────────────────────────────┐
-│                   BACKEND — FastAPI                         │
-│  /debris  /debris/conjunctions  /rag/ask  /iot/telemetry   │
-│                     /health                                 │
-└────┬──────────────────┬───────────────────┬────────────────┘
-     │                  │                   │
-     ▼                  ▼                   ▼
-┌─────────────┐  ┌──────────────┐   ┌────────────────────┐
-│ TLE         │  │  RAG Agent   │   │  IoT / Telemetria  │
-│ Processor   │  │ LangChain    │   │  Simulada          │
-│ + SGP4      │  │ FAISS + LLM  │   │  MQTT / API        │
-└────┬────────┘  └──────┬───────┘   └─────────┬──────────┘
-     │                  │                     │
-     ▼                  ▼                     ▼
-┌─────────────┐  ┌──────────────┐   ┌────────────────────┐
-│ Dados       │  │ Base de      │   │ Dados simulados de │
-│ Orbitais    │  │ conhecimento │   │ sensores orbitais  │
-│ / CelesTrak │  │ espacial     │   │                    │
-└────┬────────┘  └──────────────┘   └────────────────────┘
-     │
-     ▼
-┌──────────────────────────────┐
-│ Modelo RandomForest          │
-│ Análise de conjunções        │
-│ e classificação de risco     │
-└──────────────────────────────┘
-```
+![Arquitetura Geral do Space Debris Tracker](./space-debris-tracker/docs/arquitetura-geral.png)
+
+A arquitetura do projeto foi organizada em camadas. O frontend mobile, desenvolvido em React Native com Expo, consome os serviços disponibilizados pelo backend FastAPI. O backend centraliza o processamento dos dados orbitais, a análise de conjunções com Machine Learning, o agente RAG e a camada de telemetria simulada. A comunicação entre as camadas ocorre por meio de API REST e dados em formato JSON.
 
 ---
 
