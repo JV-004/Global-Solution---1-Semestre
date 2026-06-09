@@ -104,7 +104,7 @@ Desenvolver uma prova de conceito capaz de integrar Inteligência Artificial, an
 
 ## 🧩 Arquitetura Geral
 
-![Arquitetura Geral do Space Debris Tracker](<p align="center">
+<p align="center">
   <img src="assets/arquitetura-geral.png" alt="Arquitetura Geral" width="100%">
 </p>)
 
