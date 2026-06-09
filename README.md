@@ -886,7 +886,7 @@ O vídeo demonstrativo apresenta o funcionamento da aplicação mobile, incluind
 * alertas ativos;
 * integração visual com os dados da API.
 
-Link do vídeo no YouTube como não listado:
+Link do vídeo:
 
 https://youtube.com/shorts/foZelQEn3Ug
 
