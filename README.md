@@ -568,7 +568,7 @@ Global-Solution---1-Semestre/
         ├── hooks/                    # Hooks personalizados
         ├── types/                    # Tipagens TypeScript
         └── constants/                # Tema visual do app
-
+```
 ---
 
 ## ⚙️ Como Executar o Projeto
