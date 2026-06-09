@@ -1,6 +1,9 @@
 <p align="center">
   <img src="assets/logo-fiap.png" alt="FIAP" width="40%">
 </p>
+
+---
+
 # 🛰️ Space Debris Tracker
 
 ## Global Solution 2026.1 — FIAP
