@@ -543,95 +543,31 @@ A classificação do risco na telemetria simulada considera a distância ao obje
 ```text
 Global-Solution---1-Semestre/
 │
-├── README.md
-├── package-lock.json
+├── README.md                         # Documentação principal do projeto
+├── assets/                           # Imagens usadas no README
+│   ├── logo-fiap.png
+│   └── arquitetura-geral.png
 │
 └── space-debris-tracker/
+    ├── requirements.txt              # Dependências do backend
+    ├── .env.example                  # Exemplo de variáveis de ambiente
     │
-    ├── .env.example
-    ├── .gitignore
-    ├── README.md
-    ├── requirements.txt
-    ├── docker-compose.yml
+    ├── data/                         # Dados e cache orbital
+    ├── docs/                         # Imagens, vídeos e materiais de apoio
+    ├── notebooks/                    # Análises exploratórias
     │
-    ├── data/
-    │   └── tle_cache.json
+    ├── src/                          # Código-fonte do backend, IA e IoT
+    │   ├── ai/                       # TLE, modelo RandomForest e RAG
+    │   ├── api/                      # Rotas e serviços FastAPI
+    │   └── iot/                      # Telemetria simulada e MQTT
     │
-    ├── docs/
-    │   ├── tela-principal.jpg
-    │   ├── filtros-risco.jpg
-    │   ├── painel-controle.jpg
-    │   ├── alertas-ativos.jpg
-    │   └── readme_expo_go.md
-    │
-    ├── frontend/
-    │   ├── app/
-    │   │   ├── _layout.tsx
-    │   │   ├── index.tsx
-    │   │   ├── dashboard.tsx
-    │   │   ├── agent.tsx
-    │   │   └── debris/
-    │   │       └── [id].tsx
-    │   │
-    │   ├── components/
-    │   │   ├── DebrisCard.tsx
-    │   │   ├── RiskBadge.tsx
-    │   │   ├── RiskChart.tsx
-    │   │   ├── ChatBubble.tsx
-    │   │   └── LoadingSpinner.tsx
-    │   │
-    │   ├── services/
-    │   │   └── api.ts
-    │   │
-    │   ├── hooks/
-    │   │   └── useDebris.ts
-    │   │
-    │   ├── types/
-    │   │   └── index.ts
-    │   │
-    │   ├── constants/
-    │   │   └── theme.ts
-    │   │
-    │   ├── package.json
-    │   └── tsconfig.json
-    │
-    ├── notebooks/
-    │   └── exploratory_analysis.ipynb
-    │
-    ├── src/
-    │   ├── ai/
-    │   │   ├── collision_model.py
-    │   │   ├── rag_agent.py
-    │   │   └── tle_processor.py
-    │   │
-    │   ├── api/
-    │   │   ├── main.py
-    │   │   ├── routes/
-    │   │   │   ├── debris_routes.py
-    │   │   │   ├── health_routes.py
-    │   │   │   ├── iot_routes.py
-    │   │   │   ├── rag_routes.py
-    │   │   │   └── update_routes.py
-    │   │   │
-    │   │   └── services/
-    │   │       ├── debris_service.py
-    │   │       ├── iot_service.py
-    │   │       ├── rag_service.py
-    │   │       └── update_service.py
-    │   │
-    │   ├── iot/
-    │   │   ├── mqtt_publisher.py
-    │   │   ├── mqtt_subscriber.py
-    │   │   ├── sensor_simulator.py
-    │   │   └── telemetry_generator.py
-    │   │
-    │   └── testes/
-    │       ├── test_api.py
-    │       ├── test_model.py
-    │       └── test_rag.py
-    │
-    └── tests/
-```
+    └── frontend/                     # Aplicativo mobile React Native + Expo
+        ├── app/                      # Telas e rotas do app
+        ├── components/               # Componentes visuais
+        ├── services/                 # Comunicação com a API
+        ├── hooks/                    # Hooks personalizados
+        ├── types/                    # Tipagens TypeScript
+        └── constants/                # Tema visual do app
 
 ---
 
