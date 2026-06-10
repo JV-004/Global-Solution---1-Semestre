@@ -251,37 +251,45 @@ A interface do **Space Debris Tracker** utiliza uma estética espacial e tecnol�
 
 ### Tela Principal
 
-Exibe os objetos orbitais monitorados, com informações técnicas e classificação de risco.
+Exibe a lista geral dos objetos orbitais monitorados, com código NORAD, altitude, velocidade, inclinação orbital e classificação de risco.
 
-```md
 ![Tela principal](./space-debris-tracker/docs/tela-principal.jpg)
-```
 
-### Filtros por Risco
+### Filtro de Risco Baixo
 
-Permite visualizar objetos de acordo com o nível de criticidade: baixo, médio, alto ou crítico.
+Mostra os objetos classificados com menor nível de risco.
 
-```md
-![Filtros de risco](./space-debris-tracker/docs/filtros-risco.jpg)
-```
+![Filtro baixo](./space-debris-tracker/docs/filtro-baixo.jpg)
+
+### Filtro de Risco Médio
+
+Mostra os objetos classificados com risco intermediário.
+
+![Filtro médio](./space-debris-tracker/docs/filtro-medio.jpg)
+
+### Filtro de Risco Alto
+
+Mostra os objetos classificados com alto nível de risco.
+
+![Filtro alto](./space-debris-tracker/docs/filtro-alto.jpg)
+
+### Filtro de Risco Crítico
+
+Mostra os objetos classificados com nível crítico de risco.
+
+![Filtro crítico](./space-debris-tracker/docs/filtro-critico.jpg)
 
 ### Painel de Controle
 
-Apresenta indicadores gerais, distribuição de risco e ranking dos objetos mais perigosos.
+Apresenta indicadores gerais, distribuição de risco e ranking dos objetos com maior pontuação.
 
-```md
 ![Painel de controle](./space-debris-tracker/docs/painel-controle.jpg)
-```
 
 ### Alertas Ativos
 
-Exibe objetos classificados com risco elevado, facilitando a análise operacional.
+Exibe os objetos com maior criticidade, facilitando a identificação dos principais riscos orbitais.
 
-```md
 ![Alertas ativos](./space-debris-tracker/docs/alertas-ativos.jpg)
-```
-
-> Caso os nomes das imagens sejam diferentes, atualize os caminhos conforme os arquivos presentes na pasta `docs`.
 
 ---
 
