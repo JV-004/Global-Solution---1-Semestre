@@ -17,12 +17,12 @@
 
 ## 👥 Integrantes
 
-| Nome                    |       RM | E-mail                                                          | Função                       |
-| ----------------------- | -------: | --------------------------------------------------------------- | ---------------------------- |
-| João Vittor             | RM565999 | [fontesjoaovittor@gmail.com](mailto:fontesjoaovittor@gmail.com) | Cientista de Dados & IA      |
-| Tayna Esteves           | RM562491 | [esteves.tayna96@gmail.com](mailto:esteves.tayna96@gmail.com)   | Engenheira de Sistemas & IoT |
-| Carlos Souza            | RM566487 | [carlos.souza004@gmail.com](mailto:carlos.souza004@gmail.com)   | Desenvolvedor de Interface   |
-| Endrew Alves dos Santos | RM563646 | [endrewalves42@gmail.com](mailto:endrewalves42@gmail.com)       | Documentador & Apresentador  |
+| Nome                    |       RM | E-mail                                                          |
+| ----------------------- | -------: | --------------------------------------------------------------- |
+| João Vittor             | RM565999 | [fontesjoaovittor@gmail.com](mailto:fontesjoaovittor@gmail.com) |
+| Tayna Esteves           | RM562491 | [esteves.tayna96@gmail.com](mailto:esteves.tayna96@gmail.com)   |
+| Carlos Souza            | RM566487 | [carlos.souza004@gmail.com](mailto:carlos.souza004@gmail.com)   |
+| Endrew Alves dos Santos | RM563646 | [endrewalves42@gmail.com](mailto:endrewalves42@gmail.com)       |
 
 ---
 
@@ -860,18 +860,6 @@ O projeto adota algumas práticas básicas de segurança e organização:
 7. O agente RAG responde perguntas sobre debris espaciais.
 8. A camada IoT recebe telemetria simulada.
 ```
-
----
-
-## 📌 Divisão de Responsabilidades
-
-| Integrante              | Responsabilidade                                                             |
-| ----------------------- | ---------------------------------------------------------------------------- |
-| João Vittor             | Desenvolvimento da camada de dados, IA, análise orbital e modelo de risco    |
-| Tayna Esteves           | Estrutura de sistemas, integração, IoT, telemetria e suporte à arquitetura   |
-| Carlos Souza            | Desenvolvimento da interface mobile, dashboard, telas e experiência visual   |
-| Endrew Alves dos Santos | Documentação, organização do README, estrutura do PDF e apoio à apresentação |
-
 ---
 
 ## 🎥 Demonstração em Vídeo
